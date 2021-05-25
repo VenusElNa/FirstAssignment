@@ -7,7 +7,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,8 +22,9 @@ import java.util.concurrent.TimeUnit;
 public class JQueryFirstAssignmentTest {
     WebDriver driver;
     SoftAssert softAssert = new SoftAssert();
+
     @BeforeClass
-    public void login(){
+    public void login() {
         //set up webdriver
         System.setProperty("webdriver.chrome.driver",
                 "C:\\Users\\gturd\\IdeaProjects\\FirstAssignment\\webdriver\\chromedriver.exe");
@@ -40,8 +40,9 @@ public class JQueryFirstAssignmentTest {
         boolean isJQuerySiteDisplayed = driver.findElement(By.linkText("jQuery UI")).isDisplayed();
         System.out.println("JQuery UI site is displayed: " + isJQuerySiteDisplayed);
     }
+
     @Test
-    public void draggableTest(){
+    public void draggableTest() {
         //Click on the draggable link and display draggable page
         WebElement clickOnDraggableLink = driver.findElement(By.linkText("Draggable"));
         clickOnDraggableLink.click();
@@ -52,14 +53,15 @@ public class JQueryFirstAssignmentTest {
         driver.switchTo().frame(iframe);
         WebElement dragMeAround = driver.findElement(By.id("draggable"));
         Actions actions = new Actions(driver);
-        actions.clickAndHold(dragMeAround).dragAndDropBy(dragMeAround,100,100).release().build().perform();
+        actions.clickAndHold(dragMeAround).dragAndDropBy(dragMeAround, 100, 100).release().build().perform();
         Assert.assertTrue(dragMeAround.getText().contains("Drag me around"));
         //switch to default window
         driver.switchTo().defaultContent();
 
     }
+
     @Test
-    public void droppableTest(){
+    public void droppableTest() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         WebElement clickOnDroppableLink = driver.findElement(By.linkText("Droppable"));
         clickOnDroppableLink.click();
@@ -71,20 +73,21 @@ public class JQueryFirstAssignmentTest {
         WebElement dragMeToMyTarget = driver.findElement(By.id("draggable"));
         WebElement dropHere = driver.findElement(By.id("droppable"));
         Actions actions = new Actions(driver);
-        actions.clickAndHold(dragMeToMyTarget).dragAndDrop(dragMeToMyTarget,dropHere).release().build().perform();
+        actions.clickAndHold(dragMeToMyTarget).dragAndDrop(dragMeToMyTarget, dropHere).release().build().perform();
         Assert.assertTrue(dropHere.getText().contains("Dropped!"));
         driver.switchTo().defaultContent();
 
     }
+
     @Test
-    public void resizableTest(){
-        WebDriverWait wait = new WebDriverWait(driver,30);
+    public void resizableTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         WebElement clickOnResizableLink = driver.findElement(By.linkText("Resizable"));
         clickOnResizableLink.click();
         boolean isResizableTitleDisplayed = driver.findElement(By.xpath("//h1[text()='Resizable']")).isDisplayed();
         System.out.println("Resizable title is displayed: " + isResizableTitleDisplayed);
         WebElement element = driver.findElement(By.xpath("//h1[text()='Resizable']"));
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].setAttribute('style', 'background: yellow; border: 2px solid red;');", element);
         driver.switchTo().frame(0);
         WebElement clickOnResizablePoint = driver.findElement(By.xpath("//div[@id='resizable']/div[3]"));
@@ -93,7 +96,7 @@ public class JQueryFirstAssignmentTest {
         int beforeResizingWidth = beforeResize.getSize().getWidth();
         System.out.println("before resize width is: " + beforeResizingWidth);
         Actions actions = new Actions(driver);
-        actions.clickAndHold(clickOnResizablePoint).dragAndDropBy(beforeResize, 200,50).release().build().perform();
+        actions.clickAndHold(clickOnResizablePoint).dragAndDropBy(beforeResize, 200, 50).release().build().perform();
         WebElement afterResize = driver.findElement(By.id("resizable"));
         int afterResizingWidth = afterResize.getSize().getWidth();
         System.out.println("after resize width is: " + afterResizingWidth);
@@ -101,9 +104,10 @@ public class JQueryFirstAssignmentTest {
         softAssert.assertAll();
         driver.switchTo().defaultContent();
     }
+
     @Test
-    public void selectableTest(){
-        WebDriverWait wait = new WebDriverWait(driver,30);
+    public void selectableTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement clickOnSelectableLink = driver.findElement(By.linkText("Selectable"));
         clickOnSelectableLink.click();
         boolean isSelectableTitleDisplayed = driver.findElement(By.xpath("//h1[text()='Selectable']")).isDisplayed();
@@ -122,17 +126,17 @@ public class JQueryFirstAssignmentTest {
                 e.printStackTrace();
             }
         }
-        softAssert.assertTrue(totalItems==7);
+        softAssert.assertTrue(totalItems == 7);
         softAssert.assertAll();
         driver.switchTo().defaultContent();
         WebElement highlightExamplesContent = driver.findElement(By.xpath("//div[@class = 'demo-list']"));
         wait.until(ExpectedConditions.visibilityOf(highlightExamplesContent));
-        JavascriptExecutor js = (JavascriptExecutor)driver;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].setAttribute('style', 'background: purple; border: 2px solid blue;');"
-                ,highlightExamplesContent);
+                , highlightExamplesContent);
         List<WebElement> exampleLinks = driver.findElements(By.xpath("//div[@class='demo-list']/ul/li"));
         int totalLinks = exampleLinks.size();
-        for (WebElement example : exampleLinks){
+        for (WebElement example : exampleLinks) {
             System.out.println(example.getText());
             example.click();
             try {
@@ -144,10 +148,129 @@ public class JQueryFirstAssignmentTest {
         Assert.assertEquals(totalLinks, 3);
 
     }
-    @AfterClass
+
+    @Test
+    public void sortableTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement clickOnSortableLink = driver.findElement(By.linkText("Sortable"));
+        clickOnSortableLink.click();
+        boolean isSortableTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
+        System.out.println("Sortable title is displayed: " + isSortableTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement item1 = driver.findElement(By.xpath("//ul[@id='sortable']/li[text()='Item 1']"));
+        wait.until(ExpectedConditions.visibilityOf(item1));
+        WebElement item4 = driver.findElement(By.xpath("//ul[@id='sortable']/li[text()='Item 4']"));
+        Actions actions = new Actions(driver);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        actions.clickAndHold(item1).dragAndDropBy(item4, 0, 27).release().build().perform();
+    }
+
+    @Test
+    public void accordionTest() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement clickOnAccordionLink = driver.findElement(By.xpath("//a[text()='Accordion']"));
+        clickOnAccordionLink.click();
+        boolean isAccordionTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
+        System.out.println("The title Accordion is displayed: " + isAccordionTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        wait.until(ExpectedConditions.visibilityOf(iframe));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnSectionThree = driver.findElement(By.xpath("//h3[text()='Section 3']"));
+        clickOnSectionThree.click();
+        boolean sectionThreeContentDisplayed = driver.findElement(By.xpath
+                ("//div[@class='ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active']"))
+                .isDisplayed();
+        Assert.assertTrue(sectionThreeContentDisplayed);
+        driver.switchTo().defaultContent();
+        WebElement highlightExamplesContent = driver.findElement(By.xpath("//div[@class = 'demo-list']"));
+        wait.until(ExpectedConditions.visibilityOf(highlightExamplesContent));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].setAttribute('style', 'background: green; border: 2px solid red;');"
+                , highlightExamplesContent);
+
+    }
+    @Test
+    public void autocompleteTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnAutocompleteLink = driver.findElement(By.linkText("Autocomplete"));
+        clickOnAutocompleteLink.click();
+        boolean isAutocompleteTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
+        System.out.println("The title of Autocomplete is displayed: " + isAutocompleteTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnTagsBox = driver.findElement(By.xpath("//input[@id='tags']"));
+        clickOnTagsBox.click();
+        clickOnTagsBox.sendKeys("J");
+        // Create object on Actions class
+        Actions actions = new Actions(driver);
+        // find the element which we want to Select from auto suggestion
+        WebElement clickChosenElement = driver.findElement(By.xpath
+                ("//ul[@class='ui-menu ui-widget ui-widget-content ui-autocomplete ui-front']/li[3]/div"));
+        wait.until(ExpectedConditions.visibilityOf(clickChosenElement));
+        clickChosenElement.click();
+        // use Mouse hover action for that element
+        actions.moveToElement(clickChosenElement).build().perform();
+        // finally click on that element
+        actions.click(clickChosenElement).build().perform();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.switchTo().defaultContent();
+    }
+    @Test
+    public void buttonTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnButtonLink = driver.findElement(By.linkText("Button"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnButtonLink));
+        clickOnButtonLink.click();
+        boolean isButtonTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
+        System.out.println("The title of Button is displayed: " + isButtonTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnAButtonElement = driver.findElement(By.xpath("//div[@class='widget']/button"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnAButtonElement));
+        Actions actions = new Actions(driver);
+        actions.click(clickOnAButtonElement).release().build().perform();
+        Assert.assertTrue(clickOnAButtonElement.getText().contains("A button element"));
+        WebElement clickOnAnAnchor = driver.findElement(By.xpath("//div[@class='widget']/a[text()='An anchor']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnAnAnchor));
+        actions.click(clickOnAnAnchor).release().build().perform();
+        Assert.assertTrue(clickOnAnAnchor.getText().contains("An anchor"));
+        driver.switchTo().defaultContent();
+    }
+    @Test
+    public void checkboxRadioTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnCheckboxRadioLink = driver.findElement(By.linkText("Checkboxradio"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnCheckboxRadioLink));
+        clickOnCheckboxRadioLink.click();
+        boolean isCheckboxRadioTitleDisplayed = driver.findElement(By.xpath("//h1[@class='entry-title']")).isDisplayed();
+        System.out.println("The title of Button is displayed: " + isCheckboxRadioTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement checkRadioGroupButton = driver.findElement(By.xpath("//label[text()='London']"));
+        wait.until(ExpectedConditions.visibilityOf(checkRadioGroupButton));
+        Actions actions = new Actions(driver);
+        actions.click(checkRadioGroupButton).release().build().perform();
+        Assert.assertTrue(checkRadioGroupButton.getText().contains("London"));
+        WebElement checkCheckbox = driver.findElement(By.xpath("//label[text()='5 Star']"));
+        wait.until(ExpectedConditions.visibilityOf(checkCheckbox));
+        actions.click(checkCheckbox).release().build().perform();
+        Assert.assertTrue(checkCheckbox.getText().contains("5 Star"));
+        driver.switchTo().defaultContent();
+    }
+
+    /*@AfterClass
     public void tearDown(){
         driver.close();
         driver.quit();
-    }
+    }*/
 
 }
