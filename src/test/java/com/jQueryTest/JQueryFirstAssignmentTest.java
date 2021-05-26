@@ -117,6 +117,7 @@ public class JQueryFirstAssignmentTest {
         driver.switchTo().frame(iframe);
         List<WebElement> selectableItems = driver.findElements(By.xpath("//li[@class='ui-widget-content ui-selectee']"));
         int totalItems = selectableItems.size();
+        System.out.println(totalItems);
         for (WebElement eachItem : selectableItems) {
             System.out.println(eachItem.getText());
             eachItem.click();
@@ -266,8 +267,73 @@ public class JQueryFirstAssignmentTest {
         Assert.assertTrue(checkCheckbox.getText().contains("5 Star"));
         driver.switchTo().defaultContent();
     }
+    @Test
+    public void controlgroupTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnControlgroupLink = driver.findElement(By.xpath("//a[text()='Controlgroup']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnControlgroupLink));
+        clickOnControlgroupLink.click();
+        boolean isControlgroupTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
+        System.out.println("The title of Controlgroup is displayed: " + isControlgroupTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnCompactCarButton = driver.findElement(By.xpath("//span[@id='car-type-button']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnCompactCarButton));
+        clickOnCompactCarButton.click();
+        WebElement clickACarType = driver.findElement(By.xpath("//ul[@id='car-type-menu']/li[5]"));
+        wait.until(ExpectedConditions.visibilityOf(clickACarType));
+        clickACarType.click();
+        WebElement clickRadioButton = driver.findElement(By.xpath
+                ("//div[@class='controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix']/label[2]"));
+        wait.until(ExpectedConditions.visibilityOf(clickRadioButton));
+        clickRadioButton.click();
+        Assert.assertTrue(clickRadioButton.getText().contains("Automatic"));
+        WebElement clickCheckboxRadioButton = driver.findElement(By.xpath
+                ("//div[@class='controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix']/label[3]"));
+        wait.until(ExpectedConditions.visibilityOf(clickCheckboxRadioButton));
+        clickCheckboxRadioButton.click();
+        Assert.assertTrue(clickCheckboxRadioButton.getText().contains("Insurance"));
+        WebElement inputNumberOfCar = driver.findElement(By.xpath("//input[@id='horizontal-spinner']"));
+        wait.until(ExpectedConditions.visibilityOf(inputNumberOfCar));
+        inputNumberOfCar.sendKeys("1");
+        boolean isNumberOfCarDisplayed = driver.findElement(By.xpath("//input[@aria-valuenow='1']")).isDisplayed();
+        Assert.assertTrue(isNumberOfCarDisplayed);
+        WebElement clickOnBookNowButton = driver.findElement(By.xpath
+                ("//button[@class='ui-widget ui-controlgroup-item ui-button ui-corner-right']"));
+        clickOnBookNowButton.click();
+        driver.switchTo().defaultContent();
+    }
+    @Test
+    public void datePickerTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnDatepickerLink = driver.findElement(By.xpath("//a[text()='Datepicker']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnDatepickerLink));
+        clickOnDatepickerLink.click();
+        boolean isDatepickerTitleDisplayed = driver.findElement(By.xpath("//h1[text()='Datepicker']")).isDisplayed();
+        System.out.println("The title of Datepicker is displayed: " + isDatepickerTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnDatepickerField = driver.findElement(By.id("datepicker"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnDatepickerField));
+        clickOnDatepickerField.click();
+        WebElement pickTheMonth = driver.findElement(By.xpath("//span[text()='May']"));
+        pickTheMonth.click();
+        Assert.assertTrue(pickTheMonth.getText().contains("May"));
+        WebElement pickTheYear = driver.findElement(By.xpath("//span[text()='2021']"));
+        pickTheYear.click();
+        Assert.assertTrue(pickTheYear.getText().contains("2021"));
+        WebElement pickTheDate = driver.findElement(By.xpath
+                ("//table[@class='ui-datepicker-calendar']/tbody/tr[5]/td[6]"));
+        pickTheDate.click();
+        Assert.assertTrue(pickTheDate.getText().contains("28"));
+        driver.switchTo().defaultContent();
+        List<WebElement> links = driver.findElements(By.xpath("//div[@class='demo-list']/ul/li"));
+        int totalLinks = links.size();
+        System.out.println("The total links of Examples part: " + totalLinks);
+        Assert.assertEquals(totalLinks,14);
+    }
 
-    @AfterClass
+   @AfterClass
     public void tearDown(){
         driver.close();
         driver.quit();
