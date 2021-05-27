@@ -393,7 +393,7 @@ public class JQueryFirstAssignmentTest {
         boolean isPopTabClicked = driver.findElement(By.xpath("//div[text()='Pop']")).isDisplayed();
         Assert.assertTrue(isPopTabClicked);
     }
-    @Test
+    @Test(priority = 13)
     public void selectMenuTest(){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement clickOnSelectmenuLink = driver.findElement(By.xpath("//a[text()='Selectmenu']"));
@@ -431,7 +431,7 @@ public class JQueryFirstAssignmentTest {
         Assert.assertTrue(isATitleDisplayed);
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 14)
     public void sliderTest(){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement clickOnSlidermenuLink = driver.findElement(By.xpath("//a[text()='Slider']"));
@@ -459,7 +459,7 @@ public class JQueryFirstAssignmentTest {
         driver.switchTo().defaultContent();
 
     }
-    @Test
+    @Test(priority = 15)
     public void spinnerTest(){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement clickOnSpinnerLink = driver.findElement(By.xpath("//a[text()='Spinner']"));
@@ -475,7 +475,7 @@ public class JQueryFirstAssignmentTest {
         boolean isNumericValueDisplayed = driver.findElement(By.xpath("//input[@name='value']")).isDisplayed();
         Assert.assertTrue(isNumericValueDisplayed);
     }
-    @Test
+    @Test(priority = 16)
     public void tabsTest(){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement clickOnTabsLink = driver.findElement(By.xpath("//a[text()='Tabs']"));
@@ -494,7 +494,7 @@ public class JQueryFirstAssignmentTest {
         Assert.assertTrue(isProinDolorTabDisplayed);
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 17)
     public void tooltipTest(){
         WebDriverWait wait = new WebDriverWait(driver,5);
         WebElement clickOnTooltipLink = driver.findElement(By.xpath("//a[text()='Tooltip']"));
