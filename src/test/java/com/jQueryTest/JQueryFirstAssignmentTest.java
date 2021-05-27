@@ -41,7 +41,7 @@ public class JQueryFirstAssignmentTest {
         System.out.println("JQuery UI site is displayed: " + isJQuerySiteDisplayed);
     }
 
-    @Test
+    @Test()
     public void draggableTest() {
         //Click on the draggable link and display draggable page
         WebElement clickOnDraggableLink = driver.findElement(By.linkText("Draggable"));
@@ -60,7 +60,7 @@ public class JQueryFirstAssignmentTest {
 
     }
 
-    @Test
+    @Test(priority = 1)
     public void droppableTest() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         WebElement clickOnDroppableLink = driver.findElement(By.linkText("Droppable"));
@@ -79,10 +79,11 @@ public class JQueryFirstAssignmentTest {
 
     }
 
-    @Test
+    @Test(priority = 2)
     public void resizableTest() {
         WebDriverWait wait = new WebDriverWait(driver, 30);
         WebElement clickOnResizableLink = driver.findElement(By.linkText("Resizable"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnResizableLink));
         clickOnResizableLink.click();
         boolean isResizableTitleDisplayed = driver.findElement(By.xpath("//h1[text()='Resizable']")).isDisplayed();
         System.out.println("Resizable title is displayed: " + isResizableTitleDisplayed);
@@ -105,10 +106,11 @@ public class JQueryFirstAssignmentTest {
         driver.switchTo().defaultContent();
     }
 
-    @Test
+    @Test(priority = 3)
     public void selectableTest() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement clickOnSelectableLink = driver.findElement(By.linkText("Selectable"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnSelectableLink));
         clickOnSelectableLink.click();
         boolean isSelectableTitleDisplayed = driver.findElement(By.xpath("//h1[text()='Selectable']")).isDisplayed();
         System.out.println("Selectable title is displayed: " + isSelectableTitleDisplayed);
@@ -150,10 +152,11 @@ public class JQueryFirstAssignmentTest {
 
     }
 
-    @Test
+    @Test(priority = 4)
     public void sortableTest() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement clickOnSortableLink = driver.findElement(By.linkText("Sortable"));
+        WebElement clickOnSortableLink = driver.findElement(By.xpath("//a[text()='Sortable']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnSortableLink));
         clickOnSortableLink.click();
         boolean isSortableTitleDisplayed = driver.findElement(By.xpath("//div[@id='content']/h1")).isDisplayed();
         System.out.println("Sortable title is displayed: " + isSortableTitleDisplayed);
@@ -171,7 +174,7 @@ public class JQueryFirstAssignmentTest {
         actions.clickAndHold(item1).dragAndDropBy(item4, 0, 27).release().build().perform();
     }
 
-    @Test
+    @Test(priority = 5)
     public void accordionTest() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         WebElement clickOnAccordionLink = driver.findElement(By.xpath("//a[text()='Accordion']"));
@@ -195,7 +198,7 @@ public class JQueryFirstAssignmentTest {
                 , highlightExamplesContent);
 
     }
-    @Test
+    @Test(priority = 6)
     public void autocompleteTest(){
         WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement clickOnAutocompleteLink = driver.findElement(By.linkText("Autocomplete"));
@@ -225,7 +228,7 @@ public class JQueryFirstAssignmentTest {
         }
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 7)
     public void buttonTest(){
         WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement clickOnButtonLink = driver.findElement(By.linkText("Button"));
@@ -246,7 +249,7 @@ public class JQueryFirstAssignmentTest {
         Assert.assertTrue(clickOnAnAnchor.getText().contains("An anchor"));
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 8)
     public void checkboxRadioTest(){
         WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement clickOnCheckboxRadioLink = driver.findElement(By.linkText("Checkboxradio"));
@@ -267,7 +270,7 @@ public class JQueryFirstAssignmentTest {
         Assert.assertTrue(checkCheckbox.getText().contains("5 Star"));
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 9)
     public void controlgroupTest(){
         WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement clickOnControlgroupLink = driver.findElement(By.xpath("//a[text()='Controlgroup']"));
@@ -296,14 +299,15 @@ public class JQueryFirstAssignmentTest {
         WebElement inputNumberOfCar = driver.findElement(By.xpath("//input[@id='horizontal-spinner']"));
         wait.until(ExpectedConditions.visibilityOf(inputNumberOfCar));
         inputNumberOfCar.sendKeys("1");
-        boolean isNumberOfCarDisplayed = driver.findElement(By.xpath("//input[@aria-valuenow='1']")).isDisplayed();
+        boolean isNumberOfCarDisplayed = driver.findElement(By.xpath("//input[@id='horizontal-spinner']")).isDisplayed();
         Assert.assertTrue(isNumberOfCarDisplayed);
         WebElement clickOnBookNowButton = driver.findElement(By.xpath
                 ("//button[@class='ui-widget ui-controlgroup-item ui-button ui-corner-right']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnBookNowButton));
         clickOnBookNowButton.click();
         driver.switchTo().defaultContent();
     }
-    @Test
+    @Test(priority = 10)
     public void datePickerTest(){
         WebDriverWait wait = new WebDriverWait(driver,10);
         WebElement clickOnDatepickerLink = driver.findElement(By.xpath("//a[text()='Datepicker']"));
@@ -332,11 +336,66 @@ public class JQueryFirstAssignmentTest {
         System.out.println("The total links of Examples part: " + totalLinks);
         Assert.assertEquals(totalLinks,14);
     }
+    @Test(priority = 11)
+    public void dialogTest(){
+        WebDriverWait wait = new WebDriverWait(driver,10);
+        WebElement clickOnDialogLink = driver.findElement(By.linkText("Dialog"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnDialogLink));
+        clickOnDialogLink.click();
+        boolean isDialogTitleDisplayed = driver.findElement(By.xpath("//h1[@class='entry-title']")).isDisplayed();
+        System.out.println("The title of Dialog is displayed: " + isDialogTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnResizableButton = driver.findElement(By.xpath("//div[@class='ui-resizable-handle ui-resizable-e']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnResizableButton));
+        clickOnResizableButton.click();
+        Actions actions = new Actions(driver);
+        WebElement beforeResize = driver.findElement(By.xpath("//div[@id='dialog']"));
+        int beforeResizingWidth = beforeResize.getSize().getWidth();
+        System.out.println("Before resizing width is: " + beforeResizingWidth);
+        actions.clickAndHold(clickOnResizableButton).dragAndDropBy(beforeResize,400,50).release().build().perform();
+        WebElement afterResize = driver.findElement(By.xpath("//div[@class='ui-dialog-content ui-widget-content']"));
+        int afterResizingWidth = afterResize.getSize().getWidth();
+        System.out.println("After resizing width is: " + afterResizingWidth);
+        Assert.assertTrue(beforeResizingWidth != afterResizingWidth);
+        driver.switchTo().defaultContent();
+        List<WebElement> examplesLinks = driver.findElements(By.xpath("//div[@class='demo-list']/ul/li"));
+        int totalLinks = examplesLinks.size();
+        for (WebElement link : examplesLinks){
+            System.out.println(link.getText());
+            link.click();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        Assert.assertEquals(totalLinks,5);
+    }
+    @Test(priority = 12)
+    public void menuTest(){
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebElement clickOnMenuLink = driver.findElement(By.xpath("//a[text()='Menu']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnMenuLink));
+        clickOnMenuLink.click();
+        boolean isMenuTitleDisplayed = driver.findElement(By.xpath("//h1[@class='entry-title']")).isDisplayed();
+        System.out.println("The title of Menu is displayed: " + isMenuTitleDisplayed);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
+        driver.switchTo().frame(iframe);
+        WebElement clickOnMusicTab = driver.findElement(By.xpath("//div[text()='Music']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnMusicTab));
+        clickOnMusicTab.click();
+        WebElement clickOnPopTab = driver.findElement(By.xpath("//div[text()='Pop']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnPopTab));
+        clickOnPopTab.click();
+        boolean isPopTabClicked = driver.findElement(By.xpath("//div[text()='Pop']")).isDisplayed();
+        Assert.assertTrue(isPopTabClicked);
+    }
 
-   @AfterClass
+   /*@AfterClass
     public void tearDown(){
         driver.close();
         driver.quit();
-    }
+    }*/
 
 }
