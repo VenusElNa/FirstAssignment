@@ -2,10 +2,7 @@ package com.jQueryTest;
 
 
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -171,9 +168,8 @@ public class JQueryFirstAssignmentTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        actions.dragAndDrop(item1,item4).release().build().perform();
-        WebElement item2InFirstPlace = driver.findElement(By.xpath("//ul[@id='sortable']/li[1]"));
-        Assert.assertTrue(item2InFirstPlace.getText().contains("Item 2"));
+        actions.click(item1).clickAndHold().moveToElement(item4).moveByOffset(0,100).release().build().perform();
+       driver.switchTo().defaultContent();
     }
 
     @Test(priority = 5)
@@ -282,21 +278,22 @@ public class JQueryFirstAssignmentTest {
         System.out.println("The title of Controlgroup is displayed: " + isControlgroupTitleDisplayed);
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         driver.switchTo().frame(iframe);
+        Actions actions = new Actions(driver);
         WebElement clickOnCompactCarButton = driver.findElement(By.xpath("//span[@id='car-type-button']"));
         wait.until(ExpectedConditions.visibilityOf(clickOnCompactCarButton));
-        clickOnCompactCarButton.click();
+        actions.moveToElement(clickOnCompactCarButton).click().release().build().perform();
         WebElement clickACarType = driver.findElement(By.xpath("//ul[@id='car-type-menu']/li[5]"));
         wait.until(ExpectedConditions.visibilityOf(clickACarType));
-        clickACarType.click();
+        actions.moveToElement(clickACarType).click().release().build().perform();
         WebElement clickRadioButton = driver.findElement(By.xpath
                 ("//div[@class='controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix']/label[2]"));
         wait.until(ExpectedConditions.visibilityOf(clickRadioButton));
-        clickRadioButton.click();
+        actions.moveToElement(clickRadioButton).click().release().build().perform();
         Assert.assertTrue(clickRadioButton.getText().contains("Automatic"));
         WebElement clickCheckboxRadioButton = driver.findElement(By.xpath
                 ("//div[@class='controlgroup ui-controlgroup ui-controlgroup-horizontal ui-helper-clearfix']/label[3]"));
         wait.until(ExpectedConditions.visibilityOf(clickCheckboxRadioButton));
-        clickCheckboxRadioButton.click();
+        actions.moveToElement(clickCheckboxRadioButton).click().release().build().perform();
         Assert.assertTrue(clickCheckboxRadioButton.getText().contains("Insurance"));
         WebElement inputNumberOfCar = driver.findElement(By.xpath("//input[@id='horizontal-spinner']"));
         wait.until(ExpectedConditions.visibilityOf(inputNumberOfCar));
@@ -306,7 +303,7 @@ public class JQueryFirstAssignmentTest {
         WebElement clickOnBookNowButton = driver.findElement(By.xpath
                 ("//button[@class='ui-widget ui-controlgroup-item ui-button ui-corner-right']"));
         wait.until(ExpectedConditions.visibilityOf(clickOnBookNowButton));
-        clickOnBookNowButton.click();
+        actions.moveToElement(clickOnBookNowButton).click().release().build().perform();
         driver.switchTo().defaultContent();
     }
     @Test(priority = 10)
@@ -319,19 +316,20 @@ public class JQueryFirstAssignmentTest {
         System.out.println("The title of Datepicker is displayed: " + isDatepickerTitleDisplayed);
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         driver.switchTo().frame(iframe);
+        Actions actions = new Actions(driver);
         WebElement clickOnDatepickerField = driver.findElement(By.id("datepicker"));
         wait.until(ExpectedConditions.visibilityOf(clickOnDatepickerField));
-        clickOnDatepickerField.click();
-        WebElement pickTheMonth = driver.findElement(By.xpath("//span[text()='May']"));
-        pickTheMonth.click();
-        Assert.assertTrue(pickTheMonth.getText().contains("May"));
+        actions.moveToElement(clickOnDatepickerField).click().release().build().perform();
+        WebElement pickTheMonth = driver.findElement(By.xpath("//span[text()='June']"));
+        actions.moveToElement(pickTheMonth).click().release().build().perform();
+        Assert.assertTrue(pickTheMonth.getText().contains("June"));
         WebElement pickTheYear = driver.findElement(By.xpath("//span[text()='2021']"));
-        pickTheYear.click();
+        actions.moveToElement(pickTheYear).click().release().build().perform();
         Assert.assertTrue(pickTheYear.getText().contains("2021"));
-        WebElement pickTheDate = driver.findElement(By.xpath
-                ("//table[@class='ui-datepicker-calendar']/tbody/tr[5]/td[6]"));
-        pickTheDate.click();
-        Assert.assertTrue(pickTheDate.getText().contains("28"));
+        WebElement pickDate = driver.findElement(By.xpath
+                ("//a[text()='18']"));
+        actions.moveToElement(pickDate).click().release().build().perform();
+        Assert.assertTrue(pickDate.getText().contains("18"));
         driver.switchTo().defaultContent();
         List<WebElement> links = driver.findElements(By.xpath("//div[@class='demo-list']/ul/li"));
         int totalLinks = links.size();
@@ -384,14 +382,16 @@ public class JQueryFirstAssignmentTest {
         System.out.println("The title of Menu is displayed: " + isMenuTitleDisplayed);
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         driver.switchTo().frame(iframe);
+        WebElement moviesButton = driver.findElement(By.xpath("//div[text()='Movies']"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", moviesButton);
+        Actions actions = new Actions(driver);
         WebElement clickOnMusicTab = driver.findElement(By.xpath("//div[text()='Music']"));
         wait.until(ExpectedConditions.visibilityOf(clickOnMusicTab));
-        clickOnMusicTab.click();
-        WebElement clickOnPopTab = driver.findElement(By.xpath("//div[text()='Pop']"));
-        wait.until(ExpectedConditions.visibilityOf(clickOnPopTab));
-        clickOnPopTab.click();
-        boolean isPopTabClicked = driver.findElement(By.xpath("//div[text()='Pop']")).isDisplayed();
-        Assert.assertTrue(isPopTabClicked);
+        actions.moveToElement(clickOnMusicTab).click().release().build().perform();
+        boolean isMusicTabClicked = driver.findElement(By.xpath("//div[text()='Music']")).isDisplayed();
+        Assert.assertTrue(isMusicTabClicked);
+        driver.switchTo().defaultContent();
     }
     @Test(priority = 13)
     public void selectMenuTest(){
@@ -404,29 +404,32 @@ public class JQueryFirstAssignmentTest {
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         wait.until(ExpectedConditions.visibilityOf(iframe));
         driver.switchTo().frame(iframe);
+        Actions actions = new Actions(driver);
         WebElement clickOnSelectASpeedButton = driver.findElement(By.xpath("//span[@id='speed-button']"));
-        clickOnSelectASpeedButton.click();
+        actions.moveToElement(clickOnSelectASpeedButton).click().release().build().perform();
         WebElement clickOnItemToSelect = driver.findElement(By.xpath("//div[text()='Faster']"));
-        clickOnItemToSelect.click();
+        actions.moveToElement(clickOnItemToSelect).click().release().build().perform();
         boolean isItemDisplayed = driver.findElement(By.xpath("//span[text()='Faster']")).isDisplayed();
         Assert.assertTrue(isItemDisplayed);
         WebElement clickOnFilesButton = driver.findElement(By.xpath("//span[@id='files-button']"));
-        clickOnFilesButton.click();
-        WebElement clickOnFileToChoose = driver.findElement(By.xpath("//div[text()='ui.jQuery.js'"));
-        clickOnFileToChoose.click();
+        actions.moveToElement(clickOnFilesButton).click().release().build().perform();
+        WebElement clickOnFileToChoose = driver.findElement(By.xpath("//div[text()='ui.jQuery.js']"));
+        wait.until(ExpectedConditions.visibilityOf(clickOnFileToChoose));
+        actions.moveToElement(clickOnFileToChoose).click().release().build().perform();
         boolean isFileDisplayed = driver.findElement(By.xpath("//span[text()='ui.jQuery.js']")).isDisplayed();
         Assert.assertTrue(isFileDisplayed);
         WebElement clickOnNumberButton = driver.findElement(By.xpath("//span[@id='number-button']"));
-        clickOnNumberButton.click();
+        actions.moveToElement(clickOnNumberButton).click().release().build().perform();
         WebElement selectANumber = driver.findElement(By.xpath("//div[text()='3']"));
-        selectANumber.click();
-        boolean isANumberSelected = driver.findElement(By.xpath("//span[text()='3']")).isSelected();
-        Assert.assertTrue(isANumberSelected);
+        wait.until(ExpectedConditions.visibilityOf(selectANumber));
+        actions.moveToElement(selectANumber).click().release().build().perform();
+        boolean isANumberSelected = driver.findElement(By.xpath("//span[@id='number-button']/span[2]")).isSelected();
+        System.out.println("The number 3 is selected: " + isANumberSelected);
         WebElement clickOnSelectATitle = driver.findElement(By.xpath("//span[@id='salutation-button']"));
         wait.until(ExpectedConditions.visibilityOf(clickOnSelectATitle));
-        clickOnSelectATitle.click();
+        actions.moveToElement(clickOnSelectATitle).click().release().build().perform();
         WebElement selectATitle = driver.findElement(By.xpath("//div[text()='Dr.']"));
-        selectATitle.click();
+        actions.moveToElement(selectATitle).click().release().build().perform();
         boolean isATitleDisplayed = driver.findElement(By.xpath("//span[text()='Dr.']")).isDisplayed();
         Assert.assertTrue(isATitleDisplayed);
         driver.switchTo().defaultContent();
@@ -442,20 +445,20 @@ public class JQueryFirstAssignmentTest {
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         wait.until(ExpectedConditions.visibilityOf(iframe));
         driver.switchTo().frame(iframe);
-        WebElement clickOnSliderHandlePoint = driver.findElement
-                (By.xpath("//span[@class='ui-slider-handle ui-corner-all ui-state-default']"));
-        wait.until(ExpectedConditions.visibilityOf(clickOnSliderHandlePoint));
-        clickOnSliderHandlePoint.click();
-        int beforeSliderHandleWidth = clickOnSliderHandlePoint.getSize().getWidth();
-        System.out.println("Before slider handle width: " + beforeSliderHandleWidth);
+        WebElement beforeSlider = driver.findElement
+                (By.xpath("//div[@id='slider']"));
+        wait.until(ExpectedConditions.visibilityOf(beforeSlider));
+        System.out.println(beforeSlider.getLocation());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Actions actions = new Actions(driver);
-        actions.clickAndHold(clickOnSliderHandlePoint).dragAndDropBy
-                (clickOnSliderHandlePoint,400,0).release().build().perform();
-        WebElement afterSliderHandlePoint = driver.findElement(By.xpath
-                ("//span[@class='ui-slider-handle ui-corner-all ui-state-default ui-state-hover']"));
-        int afterSliderHandleWidth = afterSliderHandlePoint.getSize().getWidth();
-        System.out.println("After slider handle width: " + afterSliderHandleWidth);
-        Assert.assertTrue(beforeSliderHandleWidth != afterSliderHandleWidth);
+        actions.moveToElement(beforeSlider,50,8).click().release().build().perform();
+        WebElement afterSlider = driver.findElement(By.xpath("//div[@id='slider']"));
+        System.out.println(afterSlider.getLocation());
+        Assert.assertNotSame(beforeSlider, afterSlider);
         driver.switchTo().defaultContent();
 
     }
@@ -470,10 +473,12 @@ public class JQueryFirstAssignmentTest {
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         wait.until(ExpectedConditions.visibilityOf(iframe));
         driver.switchTo().frame(iframe);
-        WebElement enterNumericValueInSpinnerTab = driver.findElement(By.xpath("//input[@id='spinner']"));
-        enterNumericValueInSpinnerTab.sendKeys("12");
+        WebElement clickUpDownArrow = driver.findElement(By.xpath("//span[@class='ui-button-icon ui-icon ui-icon-triangle-1-n']"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(clickUpDownArrow).click().keyUp(clickUpDownArrow, Keys.SHIFT).release().build().perform();
         boolean isNumericValueDisplayed = driver.findElement(By.xpath("//input[@name='value']")).isDisplayed();
         Assert.assertTrue(isNumericValueDisplayed);
+        driver.switchTo().defaultContent();
     }
     @Test(priority = 16)
     public void tabsTest(){
@@ -486,10 +491,10 @@ public class JQueryFirstAssignmentTest {
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         wait.until(ExpectedConditions.visibilityOf(iframe));
         driver.switchTo().frame(iframe);
-        WebElement clickOnProinDolorTab = driver.findElement(By.xpath
-                ("//li[@class='ui-tabs-tab ui-corner-top ui-state-default ui-tab ui-tabs-active ui-state-active']"));
-        wait.until(ExpectedConditions.visibilityOf(clickOnProinDolorTab));
-        clickOnProinDolorTab.click();
+        WebElement swapToProinDolorTab = driver.findElement(By.xpath("//a[text()='Proin dolor']"));
+        wait.until(ExpectedConditions.visibilityOf(swapToProinDolorTab));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(swapToProinDolorTab).click().release().build().perform();
         boolean isProinDolorTabDisplayed = driver.findElement(By.xpath("//a[text()='Proin dolor']")).isDisplayed();
         Assert.assertTrue(isProinDolorTabDisplayed);
         driver.switchTo().defaultContent();
@@ -505,13 +510,18 @@ public class JQueryFirstAssignmentTest {
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='demo-frame']"));
         wait.until(ExpectedConditions.visibilityOf(iframe));
         driver.switchTo().frame(iframe);
-        WebElement enterYourAge = driver.findElement(By.xpath("//input[@id='age']"));
-        wait.until(ExpectedConditions.visibilityOf(enterYourAge));
-        enterYourAge.sendKeys("45");
-        boolean isTitleContentDisplayed = driver.findElement(By.xpath
-                ("//input[@title='We ask for your age only for statistical purposes.']")).isDisplayed();
-        Assert.assertTrue(isTitleContentDisplayed);
+        WebElement yourAge = driver.findElement(By.xpath("//input[@id='age']"));
+        wait.until(ExpectedConditions.visibilityOf(yourAge));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", yourAge);
+       Actions actions = new Actions(driver);
+       actions.moveToElement(yourAge).click().release().build().perform();
+       WebElement toolTipElement = driver.findElement(By.xpath("//input[@id='age']"));
+       String toolTipText = toolTipElement.getText();
+        System.out.println(toolTipText);
+        Assert.assertTrue(toolTipElement.getText().contains(toolTipText));
         driver.switchTo().defaultContent();
+
     }
 
    @AfterClass
